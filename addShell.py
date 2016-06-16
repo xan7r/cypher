@@ -459,7 +459,7 @@ def getJmpCode(startAddrVirt, jmpAddrVirt):
 		jmpRelAddrHex = "0x" + "0"*(8-(len(hex(jmpRelAddr))-2))+hex(jmpRelAddr)[2:]		# fill out jmpAddress to 4 byte hex value
 	else:
 		jmpRelAddrHex = hex(0xffffffff + jmpRelAddr + 1)	# convert negative number to proper 4byte hex value
-		jmpRelAddrHex = jmpRelAddrHex[:len(jmpRelAddrHex)-1]
+		jmpRelAddrHex = jmpRelAddrHex.rstrip("L")
 		
 	jmpRelAddrArray = [jmpRelAddrHex]
 	jmpRelAddrSwapped = "".join(switchEndians(jmpRelAddrArray))
@@ -483,7 +483,7 @@ def getEntryPointInstr(pe):
 
 	prevOffset = 0
 
-	for i in md.disasm(origInstr, 0x0):     
+	for i in md.disasm(str(origInstr), 0x0):     
 		# Add last instruction to array
 		if i.address != 0:
 			origInstrArray.append(origInstr[prevOffset:i.address])
