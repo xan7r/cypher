@@ -215,9 +215,9 @@ def removeSignature(pe):
 
 	# rewrite new pefile that doesn't contain digital signature, takes a few seconds and could be removed if time is an issue.
 	if address != 0:
-		peUnsignedFile = pefile.PE(data=pe.write()[0:address])
+		peUnsignedFile = pefile.PE(data=str(pe.write()[0:address]))
 	else:
-		peUnsignedFile = pefile.PE(data=pe.write())
+		peUnsignedFile = pefile.PE(data=str(pe.write()))
 	
 	peUnsignedFile.OPTIONAL_HEADER.CheckSum = peUnsignedFile.generate_checksum()
 	return peUnsignedFile
